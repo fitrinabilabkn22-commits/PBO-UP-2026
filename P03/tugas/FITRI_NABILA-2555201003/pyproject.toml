@@ -1,0 +1,91 @@
+# Konfigurasi baku praktikum Pemrograman Berorientasi Objek
+# Prodi Teknik Informatika — Universitas Pahlawan Tuanku Tambusai
+#
+# Berkas ini disalin apa adanya ke setiap folder praktikum dan proyek.
+# Mahasiswa TIDAK diperkenankan melonggarkan aturan di bawah ini.
+# Setiap pelonggaran yang ditemukan saat penilaian dianggap sebagai
+# upaya menghindari gerbang mutu dan dinilai 0 pada aspek kualitas kode.
+
+[project]
+name = "praktikum-pbo"
+version = "0.1.0"
+description = "Praktikum Pemrograman Berorientasi Objek"
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8.0", "mypy>=1.11", "ruff>=0.6"]
+
+# --------------------------------------------------------------------------
+# mypy — pengganti compiler Java. Inilah gerbang utamanya.
+# Kode yang tidak lolos di sini dinyatakan BELUM SELESAI.
+# --------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.14"
+strict = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_any_generics = true
+warn_return_any = true
+warn_unused_ignores = true
+no_implicit_optional = true
+show_error_codes = true
+pretty = true
+files = ["src", "tests"]
+
+# --------------------------------------------------------------------------
+# ruff — gaya penulisan dan sebagian disiplin objek.
+# --------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",      # gaya dasar
+    "F",           # kesalahan logika
+    "I",           # urutan impor
+    "N",           # penamaan: kelas PascalCase, method snake_case
+    "UP",          # gunakan sintaks Python modern
+    "ANN",         # anotasi tipe wajib
+    "B",           # jebakan umum
+    "A",           # menimpa nama bawaan
+    "C4",          # comprehension
+    "SIM",         # penyederhanaan
+    "RET",         # pola nilai kembali
+    "ARG",         # parameter tidak terpakai
+    "PL",          # kerumitan berlebih
+    "TRY",         # penanganan eksepsi
+    "RUF",
+]
+ignore = [
+    "ANN401",  # Any pada *args/**kwargs masih ditoleransi
+    "TRY003",  # pesan panjang di dalam raise diperbolehkan
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["PLR2004"]   # angka literal pada asersi wajar
+
+[tool.ruff.lint.pylint]
+max-args = 6
+max-branches = 8
+max-statements = 25       # method panjang adalah tanda tanggung jawab bercampur
+
+# --------------------------------------------------------------------------
+# pytest
+# --------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q"
+
+# --------------------------------------------------------------------------
+# Urutan pemeriksaan sebelum mengumpulkan (jalankan ketiganya, harus hijau):
+#
+#   python periksa_pbo.py src --profil pXX
+#   python -m mypy
+#   python -m pytest
+#
+# Ketiganya lolos = tugas boleh dikumpulkan.
+# --------------------------------------------------------------------------
